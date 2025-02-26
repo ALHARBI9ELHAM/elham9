@@ -21,6 +21,8 @@
             margin-top: 10px;
             text-align: center;
             width: 300px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
         }
         button {
             padding: 12px 25px;
@@ -30,6 +32,10 @@
             border: none;
             cursor: pointer;
             margin-top: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: darkblue;
         }
         canvas {
             margin-top: 20px;
@@ -54,8 +60,8 @@
         let ctx = canvas.getContext("2d");
         let image = new Image();
 
-        // استخدام رابط الصورة من Google Drive بعد تحويله إلى رابط مباشر
-        image.src = "https://drive.google.com/uc?export=download&id=1dHH2Bmd1OS9RejUgGJp9HM7LHQcGtoUF";
+        // استخدام الرابط الجديد للصورة
+        image.src = "https://drive.google.com/uc?export=download&id=1dHH2Bmd1OS9RejUgGJp9HM7LHQcGtoUF"; 
 
         image.onload = function() {
             updateCard(); // تحميل الصورة عند فتح الصفحة
@@ -68,12 +74,12 @@
             ctx.drawImage(image, 0, 0, 1200, 1200); // رفع جودة الرسم
             
             // إعدادات النص (تصغير الحجم وإنزاله للأسفل)
-            ctx.font = "60px 'Alexandria', sans-serif"; // تغيير الخط وتحسين وضوحه
+            ctx.font = "65px 'Alexandria', sans-serif"; // تغيير الخط وتحسين وضوحه
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             
             // تحديد موقع النص في الصورة
-            ctx.fillText(name, 600, 1140);
+            ctx.fillText(name, 600, 1100);
         }
 
         function downloadCard() {
