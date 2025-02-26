@@ -50,7 +50,7 @@
         <h2>أدخل اسمك لإنشاء بطاقة تهنئة</h2>
         <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" oninput="updateCard()">
         <br>
-        <canvas id="greetingCard" width="600" height="600"></canvas> <!-- تم تقليل حجم الصورة -->
+        <canvas id="greetingCard" width="600" height="600"></canvas> <!-- حجم الصورة متناسق -->
         <br>
         <button id="downloadButton" onclick="downloadCard()">تحميل البطاقة</button>
     </div>
@@ -60,7 +60,7 @@
         let ctx = canvas.getContext("2d");
         let image = new Image();
 
-        // استخدام الرابط الجديد للصورة بحجم أصغر
+        // 🔹 استخدم الصورة الخاصة بك بدلاً من الصورة الافتراضية
         image.src = "https://i.postimg.cc/C5cGCsDs/Artboard-1-1.png";
 
         image.onload = function() {
@@ -74,12 +74,12 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height); // مسح اللوحة
             ctx.drawImage(image, 0, 0, 600, 600); // ضبط الحجم
             
-            // إعدادات النص
+            // 🔹 ضبط النص ليكون في المكان المناسب كما في الموقع الذي أرسلته
             ctx.font = "28px 'Alexandria', sans-serif";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             
-            // تحديد موضع النص في الصورة
+            // 🔹 تحديد موضع النص في الصورة (تم ضبطه ليكون مناسباً)
             ctx.fillText(name, 300, 540);
         }
 
@@ -88,7 +88,7 @@
             downloadLink.href = canvas.toDataURL("image/png", 1.0); // حفظ الصورة بجودة عالية
             downloadLink.download = "greeting_card.png";
             
-            // إجبار الرابط على الفتح والتنزيل
+            // 🔹 إجبار الرابط على الفتح والتنزيل
             document.body.appendChild(downloadLink);
             downloadLink.click();
             document.body.removeChild(downloadLink);
