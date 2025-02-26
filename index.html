@@ -64,7 +64,8 @@
         image.src = "https://i.postimg.cc/C5cGCsDs/Artboard-1-1.png";
 
         image.onload = function() {
-            updateCard(); // تحميل الصورة عند فتح الصفحة
+            ctx.drawImage(image, 0, 0, 600, 600);
+            updateCard(); // تحديث النص بعد تحميل الصورة
         };
 
         function updateCard() {
@@ -73,8 +74,8 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height); // مسح اللوحة
             ctx.drawImage(image, 0, 0, 600, 600); // ضبط الحجم
             
-            // إعدادات النص 
-            ctx.font = "28px 'Alexandria', sans-serif"; // تصغير الخط لتحسين الوضوح
+            // إعدادات النص
+            ctx.font = "28px 'Alexandria', sans-serif";
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             
@@ -86,7 +87,11 @@
             let downloadLink = document.createElement("a");
             downloadLink.href = canvas.toDataURL("image/png", 1.0); // حفظ الصورة بجودة عالية
             downloadLink.download = "greeting_card.png";
+            
+            // إجبار الرابط على الفتح والتنزيل
+            document.body.appendChild(downloadLink);
             downloadLink.click();
+            document.body.removeChild(downloadLink);
         }
     </script>
 </body>
