@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة تهنئة رمضان</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Alexandria', sans-serif;
             text-align: center;
             background-color: #f4f4f4;
         }
@@ -15,14 +17,14 @@
         }
         input {
             padding: 10px;
-            font-size: 16px;
+            font-size: 18px;
             margin-top: 10px;
             text-align: center;
             width: 300px;
         }
         button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 12px 25px;
+            font-size: 18px;
             background-color: blue;
             color: white;
             border: none;
@@ -42,18 +44,18 @@
         <h2>أدخل اسمك لإنشاء بطاقة تهنئة</h2>
         <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" oninput="updateCard()">
         <br>
-        <canvas id="greetingCard" width="600" height="600"></canvas>
+        <canvas id="greetingCard" width="1200" height="1200"></canvas> <!-- رفع دقة الصورة -->
         <br>
-        <a id="downloadLink" download="greeting_card.png">
-            <button id="downloadButton">تحميل البطاقة</button>
-        </a>
+        <button id="downloadButton" onclick="downloadCard()">تحميل البطاقة</button>
     </div>
 
     <script>
         let canvas = document.getElementById("greetingCard");
         let ctx = canvas.getContext("2d");
         let image = new Image();
-        image.src = "https://i.ibb.co/XfBfznj2/Artboard-1-1.png"; // رابط الصورة المرفوعة
+
+        // استخدام رابط الصورة من Google Drive بعد تحويله إلى رابط مباشر
+        image.src = "https://drive.google.com/uc?export=download&id=1dHH2Bmd1OS9RejUgGJp9HM7LHQcGtoUF";
 
         image.onload = function() {
             updateCard(); // تحميل الصورة عند فتح الصفحة
@@ -63,19 +65,22 @@
             let name = document.getElementById("nameInput").value.trim();
 
             ctx.clearRect(0, 0, canvas.width, canvas.height); // مسح اللوحة
-            ctx.drawImage(image, 0, 0, 600, 600); // إعادة رسم الصورة
-
+            ctx.drawImage(image, 0, 0, 1200, 1200); // رفع جودة الرسم
+            
             // إعدادات النص (تصغير الحجم وإنزاله للأسفل)
-            ctx.font = "35px Arial";
+            ctx.font = "60px 'Alexandria', sans-serif"; // تغيير الخط وتحسين وضوحه
             ctx.fillStyle = "white";
             ctx.textAlign = "center";
             
             // تحديد موقع النص في الصورة
-            ctx.fillText(name, 300, 570);
+            ctx.fillText(name, 600, 1140);
+        }
 
-            // تجهيز رابط التحميل
-            let downloadLink = document.getElementById("downloadLink");
-            downloadLink.href = canvas.toDataURL("image/png");
+        function downloadCard() {
+            let downloadLink = document.createElement("a");
+            downloadLink.href = canvas.toDataURL("image/png", 1.0); // حفظ الصورة بجودة عالية
+            downloadLink.download = "greeting_card.png";
+            downloadLink.click();
         }
     </script>
 </body>
