@@ -18,6 +18,7 @@
             font-size: 16px;
             margin-top: 10px;
             text-align: center;
+            width: 300px;
         }
         button {
             padding: 10px 20px;
@@ -31,54 +32,50 @@
         canvas {
             margin-top: 20px;
             border: 1px solid #ddd;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>أدخل اسمك لإنشاء بطاقة تهنئة</h2>
-        <input type="text" id="nameInput" placeholder="اكتب اسمك هنا">
-        <button onclick="generateCard()">إنشاء البطاقة</button>
+        <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" oninput="updateCard()">
         <br>
         <canvas id="greetingCard" width="600" height="600"></canvas>
         <br>
-        <a id="downloadLink" style="display:none" download="greeting_card.png">
-            <button id="downloadButton" style="display:none;">تحميل البطاقة</button>
+        <a id="downloadLink" download="greeting_card.png">
+            <button id="downloadButton">تحميل البطاقة</button>
         </a>
     </div>
 
     <script>
-        function generateCard() {
+        let canvas = document.getElementById("greetingCard");
+        let ctx = canvas.getContext("2d");
+        let image = new Image();
+        image.src = "https://i.ibb.co/XfBfznj2/Artboard-1-1.png"; // رابط الصورة المرفوعة
+
+        image.onload = function() {
+            updateCard(); // تحميل الصورة عند فتح الصفحة
+        };
+
+        function updateCard() {
             let name = document.getElementById("nameInput").value.trim();
-            if (name === "") {
-                alert("يرجى إدخال اسمك قبل إنشاء البطاقة!");
-                return;
-            }
 
-            let canvas = document.getElementById("greetingCard");
-            let ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // مسح اللوحة
+            ctx.drawImage(image, 0, 0, 600, 600); // إعادة رسم الصورة
 
-            let image = new Image();
-            image.src = "https://i.ibb.co/XfBfznj2/Artboard-1-1.png"; // رابط الصورة المرفوعة
-            image.onload = function() {
-                ctx.drawImage(image, 0, 0, 600, 600); // رسم الصورة الخلفية
-                
-                // إعدادات النص (تصغير الخط وإنزاله لمكان مناسب)
-                ctx.font = "35px Arial";  // تصغير حجم الخط
-                ctx.fillStyle = "white";
-                ctx.textAlign = "center";
-                
-                // تعديل موضع النص (إنزاله للأسفل ليكون مماثلاً للموقع السابق)
-                ctx.fillText(name, 300, 570); 
-                
-                // تجهيز رابط التحميل
-                let downloadLink = document.getElementById("downloadLink");
-                let downloadButton = document.getElementById("downloadButton");
+            // إعدادات النص (تصغير الحجم وإنزاله للأسفل)
+            ctx.font = "35px Arial";
+            ctx.fillStyle = "white";
+            ctx.textAlign = "center";
+            
+            // تحديد موقع النص في الصورة
+            ctx.fillText(name, 300, 570);
 
-                downloadLink.href = canvas.toDataURL("image/png");
-                downloadLink.style.display = "block";
-                downloadButton.style.display = "block";
-            };
+            // تجهيز رابط التحميل
+            let downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = canvas.toDataURL("image/png");
         }
     </script>
 </body>
