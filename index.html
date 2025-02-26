@@ -43,7 +43,7 @@
         <canvas id="greetingCard" width="600" height="600"></canvas>
         <br>
         <a id="downloadLink" style="display:none" download="greeting_card.png">
-            <button>تحميل البطاقة</button>
+            <button id="downloadButton" style="display:none;">تحميل البطاقة</button>
         </a>
     </div>
 
@@ -63,18 +63,21 @@
             image.onload = function() {
                 ctx.drawImage(image, 0, 0, 600, 600); // رسم الصورة الخلفية
                 
-                // إعدادات النص
-                ctx.font = "50px Arial";
+                // إعدادات النص (تصغير الخط وإنزاله لمكان مناسب)
+                ctx.font = "35px Arial";  // تصغير حجم الخط
                 ctx.fillStyle = "white";
                 ctx.textAlign = "center";
                 
-                // تحديد موقع النص (أسفل الصورة)
-                ctx.fillText(name, 300, 550);
+                // تعديل موضع النص (إنزاله للأسفل ليكون مماثلاً للموقع السابق)
+                ctx.fillText(name, 300, 570); 
                 
                 // تجهيز رابط التحميل
                 let downloadLink = document.getElementById("downloadLink");
+                let downloadButton = document.getElementById("downloadButton");
+
                 downloadLink.href = canvas.toDataURL("image/png");
                 downloadLink.style.display = "block";
+                downloadButton.style.display = "block";
             };
         }
     </script>
