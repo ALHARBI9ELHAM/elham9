@@ -1,98 +1,51 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بطاقة تهنئة رمضان</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Alexandria:wght@400;700&display=swap');
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
-        body {
-            font-family: 'Alexandria', sans-serif;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        .container {
-            margin-top: 20px;
-        }
-        input {
-            padding: 8px;
-            font-size: 16px;
-            margin-top: 10px;
-            text-align: center;
-            width: 250px;
-            border: 2px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: blue;
-            color: white;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: darkblue;
-        }
-        canvas {
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h2>أدخل اسمك لإنشاء بطاقة تهنئة</h2>
-        <input type="text" id="nameInput" placeholder="اكتب اسمك هنا" oninput="updateCard()">
-        <br>
-        <canvas id="greetingCard" width="600" height="600"></canvas> <!-- حجم الصورة متناسق -->
-        <br>
-        <button id="downloadButton" onclick="downloadCard()">تحميل البطاقة</button>
+const initialLetters = [
+  "أ", "ب", "ت", "ث", "ج",
+  "ح", "خ", "د", "ذ", "ر",
+  "ز", "س", "ش", "ص", "ض",
+  "ط", "ظ", "ع", "غ", "ف",
+  "ق", "ك", "ل", "م", "ن"
+];
+
+const shuffleArray = (array) => {
+  return array.sort(() => Math.random() - 0.5);
+};
+
+export default function HexLetterGame() {
+  const [letters, setLetters] = useState(initialLetters);
+  const [selected, setSelected] = useState({});
+
+  const toggleColor = (index) => {
+    setSelected((prev) => ({
+      ...prev,
+      [index]: prev[index] === "green" ? "orange" : "green"
+    }));
+  };
+
+  const shuffleLetters = () => {
+    setLetters(shuffleArray([...letters]));
+    setSelected({});
+  };
+
+  return (
+    <div className="flex flex-col items-center p-5">
+      <div className="grid grid-cols-5 gap-2">
+        {letters.map((letter, index) => (
+          <motion.div
+            key={index}
+            className="w-16 h-16 flex items-center justify-center text-xl font-bold border rounded-full"
+            style={{ backgroundColor: selected[index] || "#fff" }}
+            onClick={() => toggleColor(index)}
+            whileTap={{ scale: 0.9 }}
+          >
+            {letter}
+          </motion.div>
+        ))}
+      </div>
+      <Button className="mt-4" onClick={shuffleLetters}>إعادة ترتيب الحروف</Button>
     </div>
-
-    <script>
-        let canvas = document.getElementById("greetingCard");
-        let ctx = canvas.getContext("2d");
-        let image = new Image();
-
-        // 🔹 استخدم الصورة الخاصة بك بدلاً من الصورة الافتراضية
-        image.src = "https://i.postimg.cc/C5cGCsDs/Artboard-1-1.png";
-
-        image.onload = function() {
-            ctx.drawImage(image, 0, 0, 600, 600);
-            updateCard(); // تحديث النص بعد تحميل الصورة
-        };
-
-        function updateCard() {
-            let name = document.getElementById("nameInput").value.trim();
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // مسح اللوحة
-            ctx.drawImage(image, 0, 0, 600, 600); // ضبط الحجم
-            
-            // 🔹 ضبط النص ليكون في المكان المناسب كما في الموقع الذي أرسلته
-            ctx.font = "28px 'Alexandria', sans-serif";
-            ctx.fillStyle = "white";
-            ctx.textAlign = "center";
-            
-            // 🔹 تحديد موضع النص في الصورة (تم ضبطه ليكون مناسباً)
-            ctx.fillText(name, 300, 540);
-        }
-
-        function downloadCard() {
-            let downloadLink = document.createElement("a");
-            downloadLink.href = canvas.toDataURL("image/png", 1.0); // حفظ الصورة بجودة عالية
-            downloadLink.download = "greeting_card.png";
-            
-            // 🔹 إجبار الرابط على الفتح والتنزيل
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
-    </script>
-</body>
-</html>
+  );
+}
