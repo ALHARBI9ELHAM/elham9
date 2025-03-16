@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import "@/styles/hexagon.css"; // تأكد من تضمين ملف CSS مناسب
 
 const initialLetters = [
   "أ", "ب", "ت", "ث", "ج",
@@ -11,7 +12,7 @@ const initialLetters = [
 ];
 
 const shuffleArray = (array) => {
-  return array.sort(() => Math.random() - 0.5);
+  return [...array].sort(() => Math.random() - 0.5);
 };
 
 export default function HexLetterGame() {
@@ -26,18 +27,18 @@ export default function HexLetterGame() {
   };
 
   const shuffleLetters = () => {
-    setLetters(shuffleArray([...letters]));
+    setLetters(shuffleArray(letters));
     setSelected({});
   };
 
   return (
-    <div className="flex flex-col items-center p-5">
-      <h1 className="text-2xl font-bold mb-4">حروف مع المتقروش</h1>
-      <div className="grid grid-cols-5 gap-2">
+    <div className="flex flex-col items-center p-5 bg-gray-100 min-h-screen">
+      <h1 className="text-3xl font-bold mb-6">حروف مع المتقروش</h1>
+      <div className="grid grid-cols-5 gap-2 bg-white p-5 rounded-lg shadow-lg">
         {letters.map((letter, index) => (
           <motion.div
             key={index}
-            className="w-16 h-16 flex items-center justify-center text-xl font-bold border rounded-full cursor-pointer"
+            className="w-16 h-16 flex items-center justify-center text-xl font-bold border rounded-md cursor-pointer"
             style={{ backgroundColor: selected[index] || "#fff" }}
             onClick={() => toggleColor(index)}
             whileTap={{ scale: 0.9 }}
@@ -46,7 +47,9 @@ export default function HexLetterGame() {
           </motion.div>
         ))}
       </div>
-      <Button className="mt-4" onClick={shuffleLetters}>إعادة ترتيب الحروف</Button>
+      <Button className="mt-6 px-6 py-3 bg-blue-500 text-white font-bold rounded-lg shadow-md" onClick={shuffleLetters}>
+        إعادة ترتيب الحروف
+      </Button>
     </div>
   );
 }
