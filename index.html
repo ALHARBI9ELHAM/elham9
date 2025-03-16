@@ -21,7 +21,7 @@ export default function HexLetterGame() {
   const toggleColor = (index) => {
     setSelected((prev) => ({
       ...prev,
-      [index]: prev[index] === "green" ? "orange" : "green"
+      [index]: prev[index] === "green" ? "orange" : prev[index] === "orange" ? "white" : "green"
     }));
   };
 
@@ -32,11 +32,12 @@ export default function HexLetterGame() {
 
   return (
     <div className="flex flex-col items-center p-5">
+      <h1 className="text-2xl font-bold mb-4">حروف مع المتقروش</h1>
       <div className="grid grid-cols-5 gap-2">
         {letters.map((letter, index) => (
           <motion.div
             key={index}
-            className="w-16 h-16 flex items-center justify-center text-xl font-bold border rounded-full"
+            className="w-16 h-16 flex items-center justify-center text-xl font-bold border rounded-full cursor-pointer"
             style={{ backgroundColor: selected[index] || "#fff" }}
             onClick={() => toggleColor(index)}
             whileTap={{ scale: 0.9 }}
